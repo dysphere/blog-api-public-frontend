@@ -3,22 +3,23 @@ import { UserContext } from "./UserContext";
 import { Link, Navigate } from "react-router-dom";
 import { Container } from '@mantine/core';
 
-const userLinks = [
+const links = [
     {link: '/blog', label: 'Posts'},
     {link: '/signup', label: 'Sign Up'},
     {link: '/login', label: 'Log In'}
-]
+];
 
 export const Header = () => {
     const {user, removeToken} = useContext(UserContext);
 
-    const userItems = userLinks.map((link) => {
+    const items = links.map((link) => (
         <Link
-        key={link.label}
-        to={link.link}>
-            {link.label}
+          key={link.label}
+          to={link.link}
+        >
+          {link.label}
         </Link>
-    })
+      ));
 
     function userLogout() {
         removeToken();
@@ -26,15 +27,15 @@ export const Header = () => {
     }
 
     return (<header>
-        <Container fluid>
-            <div>
+        <Container fluid className="flex flex-row justify-between pt-4">
+            <div className="pl-10">
                 <Link to="/blog">Home</Link>
             </div>
-            {user ? <div>{userItems}</div> : 
-            <div>
+            {user ? <div>
                 <Link to="/blog">Posts</Link>
                 <button type="button" onClick={userLogout}>Log Out</button>
-                </div>}
+                </div>  :        
+                <div className="flex flex-row justify-evenly gap-x-10 pr-10">{items}</div>}
         </Container>
     </header>);
 }
