@@ -52,12 +52,11 @@ export const HomePage = () => {
             </div>
     }) : null;
 
-    if (error) return <p>An error was encountered</p>;
-    if (loading) return <div>Loading...</div>
-
     return (<div>
         <Header></Header>
         <div className="pt-5"><h1 className="text-center">All Posts</h1></div>
-        <div className="flex flex-col items-center gap-y-6 pt-5">{cards}</div>
+        {error ? <div><p className="text-center">An error was encountered</p></div> :
+        loading ? <div><p className="text-center">Loading blog posts...</p></div>:
+        <div className="flex flex-col items-center gap-y-6 pt-5">{cards}</div>}
     </div>)
 }

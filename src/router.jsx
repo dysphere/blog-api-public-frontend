@@ -14,12 +14,10 @@ const Router = () => {
         {
             path: "blog",
             element: <HomePage/>,
-            children: [
-                {
-                    path: ":id",
-                    element: <BlogPost/>
-                },
-            ],
+        },
+        {
+            path:"blog/:id",
+            element: <BlogPost/>
         },
         {
             path: "signup",
