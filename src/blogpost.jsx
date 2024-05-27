@@ -26,14 +26,18 @@ const CreateComment = ({id}) => {
     </div>)
 }
 
-const Comment = ({username, text, date_posted, liked}) => {
+const Comment = ({username, text, date_posted, liked, id}) => {
+
+    const {user} = useContext(UserContext);
+
     return (<div>
         <div className="flex gap-x-4">
             <p>{username}</p>
             <p>{date_posted}</p>
         </div>
         <p>{text}</p>
-        <p>{liked.length} likes</p>
+        {!user ? <p>{liked.length} likes</p> : 
+        <div></div>}
     </div>)
 }
 
@@ -104,7 +108,7 @@ export const BlogPost = () => {
         content={post.content}
         date_posted={post.date_posted_formatted}></MainPost>}
         <CreateComment></CreateComment>
-        {CommentError ? <div><p className="text-center"></p></div> :
+        {CommentError ? <div><p className="text-center">Error loading comments</p></div> :
         CommentLoading ? <div><p className="text-center">Comments section loading...</p></div> :
         comments.length === 0 ? <div><p className="text-center">There are currently no comments</p></div> :
         <div className="flex flex-col items-center">{commentSection}</div>}

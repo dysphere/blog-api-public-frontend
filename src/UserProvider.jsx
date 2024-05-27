@@ -11,7 +11,7 @@ export const UserProvider = ({children}) => {
                 headers: {
                 "Content-Type": "application/json",
                 },
-                body: JSON.stringify(data),
+                body: data,
                 mode: "cors"});
         const jwt_token = response.json().token;
         setUser(true);
