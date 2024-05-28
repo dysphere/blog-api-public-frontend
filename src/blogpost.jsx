@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { UserContext } from "./UserContext";
 import { Link, useParams } from "react-router-dom";
 import { Header } from "./header";
+import { Textarea, Button } from "@mantine/core";
 
 const MainPost = ({author, title, content, date_posted}) => {
     return (<div className="flex flex-col items-center">
@@ -17,11 +18,46 @@ const MainPost = ({author, title, content, date_posted}) => {
 const CreateComment = ({id}) => {
 
     const { user } = useContext(UserContext);
+    const commentAction = `https://blog-api-backend.fly.dev/blog/${id}/create-comment`
 
-    async function SubmitComment() {}
+    async function SubmitComment(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        const dataEntries = Object.fromEntries(data.entries());
+        const dataJson = JSON.stringify(dataEntries);
+        const jwt_token = localStorage.getItem("jwt_token");
+        console.log(jwt_token, dataJson)
+        try {
+            await fetch(commentAction,
+            {   method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwt_token}`
+                },
+                body: dataJson,
+                mode: "cors"});
+        }
+        catch(error) {
+            console.error("Error:", error);
+        }
+    }
 
     return (<div>
-        {user ? <div><form></form></div> : 
+        {user ? 
+        <div>
+            <form action={commentAction} method="POST" onSubmit={SubmitComment}>
+                <div className="flex flex-col items-center gap-y-4">
+                ,<Textarea 
+                label="Comment: "
+                name="text"
+                autosize
+                resize="vertical"
+                className="w-80"/>
+                <Button type="submit">Submit</Button>
+                </div>
+            </form>
+            </div> : 
         <div><p className="text-center"><Link to="/login">Sign in</Link> to leave a comment!</p></div>}
     </div>)
 }
@@ -107,7 +143,7 @@ export const BlogPost = () => {
         title={post.title}
         content={post.content}
         date_posted={post.date_posted_formatted}></MainPost>}
-        <CreateComment></CreateComment>
+        <CreateComment id={post._id}></CreateComment>
         {CommentError ? <div><p className="text-center">Error loading comments</p></div> :
         CommentLoading ? <div><p className="text-center">Comments section loading...</p></div> :
         comments.length === 0 ? <div><p className="text-center">There are currently no comments</p></div> :

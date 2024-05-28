@@ -13,9 +13,10 @@ export const UserProvider = ({children}) => {
                 },
                 body: data,
                 mode: "cors"});
-        const jwt_token = response.json().token;
-        setUser(true);
-        localStorage.setItem("jwt_token", jwt_token);
+            const jwt_data = await response.json();
+            const jwt_token = jwt_data.token;
+            setUser(true);
+            localStorage.setItem("jwt_token", jwt_token);
             }
         catch (error) {
             console.error("Error:", error);
