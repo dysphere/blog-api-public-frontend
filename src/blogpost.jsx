@@ -27,7 +27,6 @@ const CreateComment = ({id}) => {
         const dataEntries = Object.fromEntries(data.entries());
         const dataJson = JSON.stringify(dataEntries);
         const jwt_token = localStorage.getItem("jwt_token");
-        console.log(jwt_token, dataJson)
         try {
             await fetch(commentAction,
             {   method: "POST",
@@ -66,14 +65,17 @@ const Comment = ({username, text, date_posted, liked, id}) => {
 
     const {user} = useContext(UserContext);
 
-    return (<div>
-        <div className="flex gap-x-4">
+    return (<div className="w-64 items-center">
+        <div className="flex justify-between">
             <p>{username}</p>
             <p>{date_posted}</p>
         </div>
         <p>{text}</p>
         {!user ? <p>{liked.length} likes</p> : 
-        <div></div>}
+        <div>
+            <form>
+                <button>{liked.length} likes</button>
+                </form></div>}
     </div>)
 }
 

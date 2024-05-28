@@ -31,7 +31,7 @@ export const Header = () => {
             <div className="pl-10">
                 <Link to="/blog">Home</Link>
             </div>
-            {user ? <div>
+            {user ? <div className="flex flex-row justify-evenly gap-x-10 pr-10">
                 <Link to="/blog">Posts</Link>
                 <button type="button" onClick={userLogout}>Log Out</button>
                 </div>  :        
