@@ -47,7 +47,7 @@ const CreateComment = ({id}) => {
         <div>
             <form action={commentAction} method="POST" onSubmit={SubmitComment}>
                 <div className="flex flex-col items-center gap-y-4">
-                ,<Textarea 
+                <Textarea 
                 label="Comment: "
                 name="text"
                 autosize
@@ -61,7 +61,7 @@ const CreateComment = ({id}) => {
     </div>)
 }
 
-const Comment = ({username, text, date_posted, liked, id}) => {
+const Comment = ({username, text, date_posted, liked, ToggleLike}) => {
 
     const {user} = useContext(UserContext);
 
@@ -70,12 +70,11 @@ const Comment = ({username, text, date_posted, liked, id}) => {
             <p>{username}</p>
             <p>{date_posted}</p>
         </div>
-        <p>{text}</p>
+        <p>{text}</p> 
         {!user ? <p>{liked.length} likes</p> : 
         <div>
-            <form>
-                <button>{liked.length} likes</button>
-                </form></div>}
+            <button onClick={ToggleLike}>{liked.length} likes</button>
+            </div>}
     </div>)
 }
 
@@ -126,13 +125,33 @@ export const BlogPost = () => {
         getComments();
     }, [id])
 
+    async function ToggleLike(post_id, comment_id) {
+
+        const likeEnd = `https://blog-api-backend.fly.dev/blog/${post_id}/comment/${comment_id}/toggle-like`
+        const jwt_token = localStorage.getItem("jwt_token");
+
+        try {
+            await fetch(likeEnd,
+            {   method: "POST",
+                headers: {
+                    Authorization: `Bearer ${jwt_token}`
+                },
+                mode: "cors"});
+        }
+        catch(error) {
+            console.error("Error:", error);
+        }
+        }
+
     const commentSection = comments.map((comment) => {
     return <div key={comment._id}>
             <Comment
             username={comment.commenter.username}
             text={comment.text}
             date_posted={comment.date_posted_formatted}
-            liked={comment.liked}></Comment>
+            liked={comment.liked}
+            ToggleLike={() => ToggleLike(comment.blog_post, comment._id)}
+            ></Comment>
         </div>
     });
 
@@ -149,6 +168,6 @@ export const BlogPost = () => {
         {CommentError ? <div><p className="text-center">Error loading comments</p></div> :
         CommentLoading ? <div><p className="text-center">Comments section loading...</p></div> :
         comments.length === 0 ? <div><p className="text-center">There are currently no comments</p></div> :
-        <div className="flex flex-col items-center">{commentSection}</div>}
+        <div className="flex flex-col items-center gap-y-4 mt-6">{commentSection}</div>}
     </div>)
 }
