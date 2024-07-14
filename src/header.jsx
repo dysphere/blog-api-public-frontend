@@ -13,12 +13,14 @@ export const Header = () => {
     const {user, removeToken} = useContext(UserContext);
 
     const items = links.map((link) => (
+        <div key={link.label} >
         <Link
-          key={link.label}
-          to={link.link}
-        >
+          to={link.link}>
+            <button className="px-10 py-1 rounded-full bg-blue-800">
           {link.label}
+          </button>
         </Link>
+        </div>
       ));
 
     function userLogout() {
@@ -27,15 +29,16 @@ export const Header = () => {
     }
 
     return (<header>
-        <Container fluid className="flex flex-row justify-between pt-4">
-            <div className="pl-10">
+        <Container fluid className="flex flex-row justify-between py-4 bg-blue-200 text-white pb-3">
+            <div className="text-blue-800 font-bold text-2xl">
                 <Link to="/blog">Home</Link>
             </div>
             {user ? <div className="flex flex-row justify-evenly gap-x-10 pr-10">
-                <Link to="/blog">Posts</Link>
-                <button type="button" onClick={userLogout}>Log Out</button>
+                <Link to="/blog">
+                <button className="px-10 py-1 rounded-full bg-blue-800">Posts</button></Link>
+                <button type="button" className="px-10 py-1 rounded-full bg-blue-800" onClick={userLogout}>Log Out</button>
                 </div>  :        
-                <div className="flex flex-row justify-evenly gap-x-10 pr-10">{items}</div>}
+                <div className="flex flex-row justify-evenly gap-x-10 pr-10 pb-1">{items}</div>}
         </Container>
     </header>);
 }
