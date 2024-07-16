@@ -5,13 +5,13 @@ import { Header } from "./header";
 import { Textarea, Button } from "@mantine/core";
 
 const MainPost = ({author, title, content, date_posted}) => {
-    return (<div className="flex flex-col items-center">
-        <h2>{title}</h2>
-        <div className="flex gap-x-4">
+    return (<div className="flex flex-col items-center gap-y-3 mb-10 py-10 bg-blue-100 text-blue-800">
+        <h2 className="text-3xl">{title}</h2>
+        <div className="flex gap-x-4 text-xl">
             <p>By {author}</p>
             <p>Published {date_posted}</p>
         </div>
-        <p>{content}</p>
+        <p className="text-lg">{content}</p>
     </div>)
 }
 
@@ -57,7 +57,7 @@ const CreateComment = ({id}) => {
                 </div>
             </form>
             </div> : 
-        <div><p className="text-center"><Link to="/login">Sign in</Link> to leave a comment!</p></div>}
+        <div className="border-2 border-blue-300 rounded-lg py-4 mx-[44rem]"><p className="text-center text-blue-800"><Link to="/login"><button className="bg-blue-800 text-white px-4 rounded-full mr-2">Sign in</button></Link> to leave a comment!</p></div>}
     </div>)
 }
 
@@ -65,13 +65,13 @@ const Comment = ({username, text, date_posted, liked, ToggleLike}) => {
 
     const {user} = useContext(UserContext);
 
-    return (<div className="w-64 items-center">
-        <div className="flex justify-between">
+    return (<div className="items-center text-blue-800 bg-blue-200 w-96 p-4 rounded-md border-2 border-blue-800">
+        <div className="flex justify-between gap-x-4">
             <p>{username}</p>
             <p>{date_posted}</p>
         </div>
         <p>{text}</p> 
-        {!user ? <p>{liked.length} likes</p> : 
+        {!user ? <p className="bg-blue-100 mr-64 pl-6 rounded-md">{liked.length} likes</p> : 
         <div>
             <button onClick={ToggleLike}>{liked.length} likes</button>
             </div>}
