@@ -54,7 +54,7 @@ export const HomePage = () => {
 
     return (<div className="">
         <Header></Header>
-        <div className="bg-blue-100 mx-[36rem] mt-10 pb-10">
+        <div className="bg-blue-100 md:mx-[36rem] mt-10 pb-10">
         <div className="pt-5"><h1 className="text-center text-3xl text-blue-800">All Posts</h1></div>
         {error ? <div><p className="text-center text-blue-800 mt-4">An error was encountered</p></div> :
         loading ? <div><p className="text-center text-blue-800 mt-4">Loading blog posts...</p></div>:

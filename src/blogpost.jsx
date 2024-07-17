@@ -6,8 +6,8 @@ import { Textarea, Button } from "@mantine/core";
 
 const MainPost = ({author, title, content, date_posted}) => {
     return (<div className="flex flex-col items-center gap-y-3 mb-10 py-10 bg-blue-100 text-blue-800">
-        <h2 className="text-3xl">{title}</h2>
-        <div className="flex gap-x-4 text-xl">
+        <h2 className="text-2xl md:text-3xl">{title}</h2>
+        <div className="flex gap-x-2.5 md:gap-x-4 text-lg md:text-xl">
             <p>By {author}</p>
             <p>Published {date_posted}</p>
         </div>
@@ -36,6 +36,7 @@ const CreateComment = ({id}) => {
                 },
                 body: dataJson,
                 mode: "cors"});
+                location.reload();
         }
         catch(error) {
             console.error("Error:", error);
@@ -46,18 +47,24 @@ const CreateComment = ({id}) => {
         {user ? 
         <div>
             <form action={commentAction} method="POST" onSubmit={SubmitComment}>
-                <div className="flex flex-col items-center gap-y-4">
+                <div className="flex flex-col items-center gap-y-4 border-2 py-8 border-blue-800 md:mx-[44rem]">
                 <Textarea 
                 label="Comment: "
                 name="text"
                 autosize
                 resize="vertical"
-                className="w-80"/>
-                <Button type="submit">Submit</Button>
+                className="w-80"
+                styles={{
+                    label: {
+                      fontSize: 18,
+                      color: 'rgb(30, 64, 175)',
+                    }
+                  }}/>
+                <Button type="submit" color="rgb(30, 64, 175)" radius="10px">Submit</Button>
                 </div>
             </form>
             </div> : 
-        <div className="border-2 border-blue-300 rounded-lg py-4 mx-[44rem]"><p className="text-center text-blue-800"><Link to="/login"><button className="bg-blue-800 text-white px-4 rounded-full mr-2">Sign in</button></Link> to leave a comment!</p></div>}
+        <div className="border-2 border-blue-300 rounded-lg py-4 md:mx-[44rem]"><p className="text-center text-blue-800"><Link to="/login"><button className="bg-blue-800 text-white px-4 rounded-full mr-2">Sign in</button></Link> to leave a comment!</p></div>}
     </div>)
 }
 
@@ -71,9 +78,9 @@ const Comment = ({username, text, date_posted, liked, ToggleLike}) => {
             <p>{date_posted}</p>
         </div>
         <p>{text}</p> 
-        {!user ? <p className="bg-blue-100 mr-64 pl-6 rounded-md">{liked.length} likes</p> : 
+        {!user ? <p className="bg-blue-100 mr-64 rounded-md px-3">{liked.length} likes</p> : 
         <div>
-            <button onClick={ToggleLike}>{liked.length} likes</button>
+            <button onClick={ToggleLike} className="bg-blue-100 mr-64 rounded-md hover:bg-blue-300 px-3">{liked.length} likes</button>
             </div>}
     </div>)
 }
@@ -137,6 +144,7 @@ export const BlogPost = () => {
                     Authorization: `Bearer ${jwt_token}`
                 },
                 mode: "cors"});
+                location.reload();
         }
         catch(error) {
             console.error("Error:", error);
@@ -157,17 +165,17 @@ export const BlogPost = () => {
 
     return (<div>
         <Header></Header>
-        {PostError ? <div><p className="text-center">A network error was encountered</p></div> : 
-        PostLoading ? <div><p className="text-center">Post loading...</p></div> : 
+        {PostError ? <div><p className="text-center text-blue-800">A network error was encountered</p></div> : 
+        PostLoading ? <div><p className="text-center text-blue-800">Post loading...</p></div> : 
         <MainPost
         author={post.author.username}
         title={post.title}
         content={post.content}
         date_posted={post.date_posted_formatted}></MainPost>}
         <CreateComment id={post._id}></CreateComment>
-        {CommentError ? <div><p className="text-center">Error loading comments</p></div> :
-        CommentLoading ? <div><p className="text-center">Comments section loading...</p></div> :
-        comments.length === 0 ? <div><p className="text-center">There are currently no comments</p></div> :
+        {CommentError ? <div><p className="text-center text-blue-800">Error loading comments</p></div> :
+        CommentLoading ? <div><p className="text-center text-blue-800">Comments section loading...</p></div> :
+        comments.length === 0 ? <div><p className="text-center text-blue-800">There are currently no comments</p></div> :
         <div className="flex flex-col items-center gap-y-4 mt-6">{commentSection}</div>}
     </div>)
 }

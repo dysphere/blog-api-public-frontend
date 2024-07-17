@@ -16,7 +16,7 @@ export const Header = () => {
         <div key={link.label} >
         <Link
           to={link.link}>
-            <button className="px-10 py-1 rounded-full bg-blue-800">
+            <button className="px-2 md:px-10 py-1 rounded-full bg-blue-800">
           {link.label}
           </button>
         </Link>
@@ -33,12 +33,12 @@ export const Header = () => {
             <div className="text-blue-800 font-bold text-2xl">
                 <Link to="/blog">Home</Link>
             </div>
-            {user ? <div className="flex flex-row justify-evenly gap-x-10 pr-10">
+            {user ? <div className="flex flex-row justify-evenly gap-x-4 md:gap-x-10 md:pr-10">
                 <Link to="/blog">
-                <button className="px-10 py-1 rounded-full bg-blue-800">Posts</button></Link>
-                <button type="button" className="px-10 py-1 rounded-full bg-blue-800" onClick={userLogout}>Log Out</button>
+                <button className="px-4 md:px-10 py-1 rounded-full bg-blue-800">Posts</button></Link>
+                <button type="button" className="px-4 md:px-10 py-1 rounded-full bg-blue-800" onClick={userLogout}>Log Out</button>
                 </div>  :        
-                <div className="flex flex-row justify-evenly gap-x-10 pr-10 pb-1">{items}</div>}
+                <div className="flex flex-row justify-evenly gap-x-4 md:gap-x-10 md:pr-10 pb-1">{items}</div>}
         </Container>
     </header>);
 }
