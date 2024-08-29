@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+p {
+    padding-top: 1rem;
+}
+

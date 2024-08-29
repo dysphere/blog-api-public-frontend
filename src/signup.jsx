@@ -29,7 +29,7 @@ const SignupForm = () => {
         }
     }
 
-    return (<div className="text-blue-800 bg-blue-100 md:mx-[40rem]">
+    return (<div className="text-blue-800 bg-blue-100 md:mx-auto mt-24">
         <h2 className="text-center mt-10 pt-5 text-3xl">Sign Up</h2>
         <form action="https://blog-api-backend.fly.dev/blog/sign-up" method="POST" onSubmit={createCommenter}>
             <div className="flex flex-col items-center gap-y-2 py-5">

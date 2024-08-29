@@ -29,7 +29,7 @@ export const Header = () => {
     }
 
     return (<header>
-        <Container fluid className="flex flex-row justify-between py-4 bg-blue-200 text-white pb-3">
+        <Container fluid className="flex flex-row justify-between py-4 bg-blue-200 text-white pb-3 fixed top-0 left-0 right-0">
             <div className="text-blue-800 font-bold text-2xl">
                 <Link to="/blog">Home</Link>
             </div>

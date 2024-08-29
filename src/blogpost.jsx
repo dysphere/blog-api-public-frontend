@@ -5,13 +5,22 @@ import { Header } from "./header";
 import { Textarea, Button } from "@mantine/core";
 
 const MainPost = ({author, title, content, date_posted}) => {
-    return (<div className="flex flex-col items-center gap-y-3 mb-10 py-10 bg-blue-100 text-blue-800">
+
+    function unescapeHtmlEntities(html) {
+        const doc = new DOMParser().parseFromString(content, "text/html");
+        return doc.documentElement.textContent;
+      }
+
+    return (<div className="flex flex-col items-center gap-y-3 mb-10 py-10 bg-blue-100 text-blue-800 mt-28">
         <h2 className="text-2xl md:text-3xl">{title}</h2>
         <div className="flex gap-x-2.5 md:gap-x-4 text-lg md:text-xl">
             <p>By {author}</p>
             <p>Published {date_posted}</p>
         </div>
-        <p className="text-lg">{content}</p>
+        <div
+      dangerouslySetInnerHTML={{__html: unescapeHtmlEntities(content)}}
+      className="mx-10 md:mx-96"
+    />
     </div>)
 }
 
@@ -72,7 +81,7 @@ const Comment = ({username, text, date_posted, liked, ToggleLike}) => {
 
     const {user} = useContext(UserContext);
 
-    return (<div className="items-center text-blue-800 bg-blue-200 w-96 p-4 rounded-md border-2 border-blue-800">
+    return (<div className="items-center text-blue-800 bg-blue-200 w-96 p-4 rounded-md border-2 border-blue-800 mb-2 mt-0">
         <div className="flex justify-between gap-x-4">
             <p>{username}</p>
             <p>{date_posted}</p>
@@ -176,6 +185,6 @@ export const BlogPost = () => {
         {CommentError ? <div><p className="text-center text-blue-800">Error loading comments</p></div> :
         CommentLoading ? <div><p className="text-center text-blue-800">Comments section loading...</p></div> :
         comments.length === 0 ? <div><p className="text-center text-blue-800">There are currently no comments</p></div> :
-        <div className="flex flex-col items-center gap-y-4 mt-6">{commentSection}</div>}
+        <div className="flex flex-col items-center gap-y-4 my-6">{commentSection}</div>}
     </div>)
 }

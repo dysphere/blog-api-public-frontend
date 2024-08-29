@@ -2,19 +2,22 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "./header";
 
-const truncateString = (string) => {
-    return string.slice(0, 60) + "..."
-}
+function unescapeHtmlEntities(html) {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.documentElement.textContent.slice(0, 60) + "...";
+  }
 
 const BlogCard = ({title, author, id, date_posted, content}) => {
     return (
-    <Link to={`${id}`}><div className="flex flex-col gap-y-2.5 bg-blue-200 hover:bg-blue-300 text-blue-800 border-l-4 border-blue-800 py-6 pl-4 pr-12">
+    <Link to={`${id}`}><div className="flex flex-col gap-y-2.5 bg-blue-200 hover:bg-blue-300 text-blue-800 border-l-4 border-blue-800 py-6 pl-4 pr-12 w-screen md:w-[30rem]">
         <h2 className="text-center">{title}</h2>
         <div className="flex gap-x-4">
         <p>{date_posted}</p>
         <p>{author}</p>
         </div>
-        <p>{truncateString(content)}</p>
+        <div
+      dangerouslySetInnerHTML={{__html: unescapeHtmlEntities(content)}}
+    />
     </div></Link>)
 }
 
@@ -54,7 +57,7 @@ export const HomePage = () => {
 
     return (<div className="">
         <Header></Header>
-        <div className="bg-blue-100 md:mx-[36rem] mt-10 pb-10">
+        <div className="bg-blue-100 md:mx-auto mt-24 pb-10">
         <div className="pt-5"><h1 className="text-center text-3xl text-blue-800">All Posts</h1></div>
         {error ? <div><p className="text-center text-blue-800 mt-4">An error was encountered</p></div> :
         loading ? <div><p className="text-center text-blue-800 mt-4">Loading blog posts...</p></div>:
